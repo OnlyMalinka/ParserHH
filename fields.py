@@ -1,7 +1,9 @@
-# Словарь для отображения в интерфейсе -> внутренние ключи
+# fields.py
+
 AVAILABLE_FIELDS = {
     "Компания": "employer_name",
     "Вакансия": "vacancy_name",
+    "Регион": "region", # НОВОЕ ПОЛЕ
     "Город": "city",
     "Опыт работы": "experience",
     "График работы": "schedule",
@@ -16,7 +18,7 @@ AVAILABLE_FIELDS = {
     "Дата публикации": "published_at"
 }
 
-def extract_vacancy_data(item):
+def extract_vacancy_data(item, current_region_name):
     """Безопасно извлекает данные из одного элемента вакансии"""
     emp = item.get("employer", {})
     sal = item.get("salary") or {}
@@ -30,6 +32,7 @@ def extract_vacancy_data(item):
         "employer_name": emp.get("name", "Не указано"),
         "vacancy_name": item.get("name", "Не указано"),
         "city": area.get("name", "Не указано"),
+        "region": current_region_name,
         "experience": exp.get("name", "Не указано"),
         "schedule": sched.get("name", "Не указано"),
         "employment": empl.get("name", "Не указано"),

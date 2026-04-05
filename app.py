@@ -46,13 +46,13 @@ selected_regions = st.multiselect(
 )
 
 with st.expander("⚙️ Настройка выгрузки и дубликатов", expanded=True):
-    # НОВОЕ: Галочка для управления дубликатами
     remove_duplicates = st.checkbox("Удалять дубликаты (оставлять только одну запись на каждую уникальную компанию)", value=True)
     
     selected_display_names = st.multiselect(
         "Выберите поля, которые попадут в итоговую таблицу:",
         options=list(AVAILABLE_FIELDS.keys()),
-        default=["Компания", "Вакансия", "Город", "Зарплата ОТ", "Ссылка на вакансию"]
+
+        default=["Компания", "Вакансия", "Регион", "Город", "Зарплата ОТ", "Ссылка на вакансию"] 
     )
 
 if st.button("🚀 Начать сбор данных", type="primary"):
@@ -100,7 +100,8 @@ if st.button("🚀 Начать сбор данных", type="primary"):
                 if not items: break 
                 
                 for item in items:
-                    extracted_data = extract_vacancy_data(item)
+                    # ПЕРЕДАЕМ ИМЯ РЕГИОНА ВТОРЫМ АРГУМЕНТОМ!
+                    extracted_data = extract_vacancy_data(item, region_name)
                     
                     filtered_entry = {}
                     for display_name in selected_display_names:
